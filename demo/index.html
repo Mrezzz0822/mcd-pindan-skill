@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-page-node-id="tsdAN8X9wa2R4VzUUCuC9N">
+<head data-page-node-id="UfTtv2N8y2zIu4NZLKgdrr">
+<meta charset="UTF-8" data-page-node-id="anQRB5ecEULnPG0esDzmg2">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" data-page-node-id="eGynHr2AySASJvfNFuhPDw">
+<title>麦顺路 McRoutePin · 在线演示</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "PingFang SC", "Microsoft YaHei", -apple-system, sans-serif;
+    background: #f6f5f0; color: #2c2c2a; min-height: 100vh;
+    display: flex; flex-direction: column; align-items: center; padding: 24px 16px;
+  }
+  header { text-align: center; margin-bottom: 18px; }
+  header h1 { font-size: 22px; font-weight: 600; }
+  header p { font-size: 13px; color: #5f5e5a; margin-top: 6px; }
+  header a { color: #993c1d; }
+  .wrap { display: flex; gap: 18px; flex-wrap: wrap; justify-content: center; max-width: 1080px; }
+  .card {
+    background: #fff; border: 1px solid #d3d1c7; border-radius: 12px;
+    padding: 18px; box-shadow: 0 1px 3px rgba(0,0,0,.05);
+  }
+  .card h2 { font-size: 15px; font-weight: 600; margin-bottom: 12px; }
+  #map { display: block; touch-action: none; cursor: crosshair; background: #fbfaf7; border-radius: 8px; }
+  .legend { font-size: 12px; color: #5f5e5a; margin-top: 10px; line-height: 1.7; }
+  .dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; vertical-align: middle; }
+  .panel { width: 380px; display: flex; flex-direction: column; gap: 14px; }
+  .row { display: flex; justify-content: space-between; font-size: 13px; padding: 5px 0; border-bottom: 1px dashed #e5e3da; }
+  .row b { font-weight: 600; }
+  .verdict { border-radius: 10px; padding: 14px; font-size: 14px; line-height: 1.7; }
+  .ok { background: #eaf3de; border: 1px solid #97c459; color: #27500a; }
+  .no { background: #fcebeb; border: 1px solid #e24b4a; color: #501313; }
+  .tiers { font-size: 12px; color: #5f5e5a; line-height: 1.8; }
+  .tiers td { padding: 0 10px 0 0; }
+  .pill { font-size: 12px; border: 1px solid #b4b2a9; border-radius: 14px; padding: 4px 12px; background: #fff; cursor: pointer; margin: 0 6px 6px 0; }
+  .pill:hover { border-color: #5f5e5a; background: #f1efe8; }
+  .fee-ctl { display: flex; align-items: center; gap: 10px; font-size: 13px; margin-top: 8px; }
+  input[type=range] { flex: 1; }
+  .card-preview { font-family: "SF Mono", Consolas, monospace; font-size: 12px; line-height: 1.8;
+    background: #2c2c2a; color: #f1efe8; border-radius: 8px; padding: 14px; white-space: pre; }
+  footer { font-size: 12px; color: #888780; margin-top: 18px; text-align: center; line-height: 1.7; }
+</style>
+</head>
+<body data-page-node-id="xusrwEjJWrqwohU8rjxRvI">
+<header data-page-node-id="VGePtV2QWErgxQzliPKLv8">
+  <h1 data-page-node-id="w8O66JXUPwpidK5kqZOEIU">🍔🛵 麦顺路 McRoutePin · 拼单墙在线演示</h1>
+  <p data-page-node-id="B7VupSBe3uCMx8ZLt1J15J">拖动三个点，看顺路度（绕路比）如何决定能不能拼、双方各付多少 · 无需任何 Token</p>
+</header>
+
+<div class="wrap" data-page-node-id="zz1jphEI1FxfkSHnzSPVbi">
+  <div class="card" data-page-node-id="7pl43rQuFtcJX9qpTE5Vh0">
+    <h2 data-page-node-id="rP2iFEJ3lt7UPkjVGpQDxC">配送地图（可直接拖动）</h2>
+    <svg id="map" width="620" height="440" viewBox="0 0 620 440" data-page-node-id="wAAKVlsHB63bQ23IqjOrzl"></svg>
+    <div class="legend" data-page-node-id="aHASxOUD5HyHNgvKCWMaEp">
+      <span class="dot" style="background:#d85a30" data-page-node-id="CR3cHocxJvie91doP9tmMX"></span>麦当劳门店　
+      <span class="dot" style="background:#185fa5" data-page-node-id="llLCYg3OasL0khxyZBGcGk"></span>发起人（你）　
+      <span class="dot" style="background:#0f6e56" data-page-node-id="lf2NVuF7HNEDqXDEQnXjRY"></span>拼单伙伴　
+      <span style="font-size:11px;color:#888780" data-page-node-id="fayvTtZmD9OMzXLCJjiV21">｜ 全图约 4.0 km × 2.8 km</span>
+    </div>
+    <h2 style="margin-top:14px" data-page-node-id="uKZGCx0sMWaucR7S803Z7U">预设场景</h2>
+    <div data-page-node-id="7lyYlxhuaGhAyVlStOgehv">
+      <button class="pill" onclick="preset(0)" data-page-node-id="wosqgUZRFpVxaGtMkmw5r2">✅ 必经之路（r=1.00，省50%）</button>
+      <button class="pill" onclick="preset(1)" data-page-node-id="mvKG0hqnBdFBWoBovZpvjG">✅ 同方向深度顺路</button>
+      <button class="pill" onclick="preset(2)" data-page-node-id="rYztNjBy55YliduwKU4QUB">⚠️ 明显绕路（轻度）</button>
+      <button class="pill" onclick="preset(3)" data-page-node-id="on76yhhhauPMlKSGueABqB">❌ 反方向（拒绝）</button>
+    </div>
+  </div>
+
+  <div class="panel" data-page-node-id="FTIQqDwjBy1t3CkxXFmAkB">
+    <div class="card" data-page-node-id="bdogC171R71XwLt67PA2lw">
+      <h2 data-page-node-id="NAHlY1qQWdEfWJFeJLcKkD">撮合结果</h2>
+      <div id="verdict" class="verdict ok" data-page-node-id="Sx9KI6f0yv6CEbv8NI3dFE"></div>
+      <div style="margin-top:10px" data-page-node-id="wpBwEEZ9bJhM1BZMvpOQft">
+        <div class="row" data-page-node-id="wIiDzwKEmqyZvCgnOFRTJQ"><span data-page-node-id="oaJpZGEZp0M6DyP17n2fmp">门店 → 发起人</span><b id="dSA" data-page-node-id="PRPize4NevYOQxq1hGeZj7">–</b></div>
+        <div class="row" data-page-node-id="HuFBxHEmJ5WqEXHEK8XfB6"><span data-page-node-id="PANw5L0QuEDJylgtqnmeaG">发起人 ↔ 伙伴</span><b id="dAB" data-page-node-id="PAZnfUCTU2V7D85hikDZNv">–</b></div>
+        <div class="row" data-page-node-id="FBPiQfveIRn2DGHg48BPK8"><span data-page-node-id="OHAqFZN8ejLMe35I9leIDH">门店 → 伙伴</span><b id="dSB" data-page-node-id="nHFcdMngQ3zUsjHkTb3Mns">–</b></div>
+        <div class="row" data-page-node-id="EBCmHdp3tzohXEwzUgEN3y"><span data-page-node-id="igQzfP3xRGMufkMSfn8O9C">骑手一趟总里程</span><b id="route" data-page-node-id="IONmC7JIH26RoYHWzgEGlX">–</b></div>
+        <div class="row" data-page-node-id="TjPUqSolLpLh3J38DeheEJ"><span data-page-node-id="AXnOeKL6J53Ijc7zsQL2ri">派单建议</span><b id="order" data-page-node-id="XAQED2jLXHBZbeps5LKEIi">–</b></div>
+      </div>
+      <div class="fee-ctl" data-page-node-id="Ju9KNhNufLHSJKdkUe0iwu">
+        <span data-page-node-id="Cv8znDKuOO594pJwi5RXPR">单人配送费</span>
+        <input type="range" id="fee" min="5" max="15" step="0.5" value="9" oninput="render()" data-page-node-id="7NKdVStdgvP4tevVW2qwUG">
+        <b id="feeVal" data-page-node-id="3hmHj6BkgaXa9CSijQL6AA">¥9.0</b>
+      </div>
+    </div>
+
+    <div class="card" data-page-node-id="YqpuBPicu4GQ9ZfdFlyU2T">
+      <h2 data-page-node-id="HTSwQ3wkQXlOqogwt0Yz1G">顺路度分档</h2>
+      <table class="tiers" data-page-node-id="nGolJOllpq4XKEIVCXYnYh">
+        <tr data-page-node-id="DaKYZ4ig5M8BlDuLNMqTT6"><td data-page-node-id="MxQSYU4dV6RJ3KcxBRBlf6">r ≤ 1.3</td><td data-page-node-id="Ry0mPO2eeUCPOshQFGdyLj">深度顺路</td><td data-page-node-id="x1nEUky5opmNRcQDxwaOxG">双方各省 45%~50%</td></tr>
+        <tr data-page-node-id="CLst0NeHFldQc7mHHBUy2g"><td data-page-node-id="jmUh7KHXdHECVqEIgE0N6Z">r ≤ 1.8</td><td data-page-node-id="VKekZEmGXnQ5Olo5l1pwcD">中度顺路</td><td data-page-node-id="hPoUOuN1lXxxGBKWklUXiA">双方各省 40%~45%</td></tr>
+        <tr data-page-node-id="V16aJoW6NsTySDt09rkR96"><td data-page-node-id="vCa0ymv7A8pCuCOxctmk4I">r ≤ 2.5</td><td data-page-node-id="36uD6tnRVxbj1RoWq5dA6T">轻度顺路</td><td data-page-node-id="qW1044Cnn93NzffivxBXR4">双方各省 35%~40%</td></tr>
+        <tr data-page-node-id="YfiAnUSZs7DlWBIYwUhNHv"><td data-page-node-id="QbSlS1DVbdqhQ2sDmnTbMS">r &gt; 2.5</td><td colspan="2" style="color:#a32d2d" data-page-node-id="FA0sOZ2gQora90y6grqMTH">❌ 拒绝：不是顺路，是专程</td></tr>
+      </table>
+    </div>
+
+    <div class="card" data-page-node-id="F7YlkO6krJo0G1UpeZ4p0F">
+      <h2 data-page-node-id="PHnizcsmFovQvxK2GXe3fC">拼单卡片预览</h2>
+      <div class="card-preview" id="card" data-page-node-id="Wj0o5xj39bhqDPRNzNM6nE"></div>
+    </div>
+  </div>
+</div>
+
+<footer data-page-node-id="e9CVpdKMs3P6l4M99vREw8">
+  麦顺路 McRoutePin · 麦当劳程序员创意开发大赛参赛作品 · 基于麦当劳 MCP<br data-page-node-id="2CyL1CI6M0qoCVsiE0g5BG">
+  距离为直线近似（真实路网约 ±30% 偏差）· 撮合结果为算法测算，实际以麦当劳官方渠道为准
+</footer>
+
+<script>
+const W = 620, H = 440, KM_W = 4.0;              // 全图宽 4 km
+const KMPP = KM_W / W;                            // px -> km
+const F_DEF = 9.0;
+const TIERS = [[1.3, "深度顺路", 0.10], [1.8, "中度顺路", 0.15], [2.5, "轻度顺路", 0.20]];
+
+const store = { x: 110, y: 250, name: "麦当劳门店", color: "#d85a30" };
+const init  = { x: 520, y: 250, name: "发起人",    color: "#185fa5" };
+const part  = { x: 330, y: 245, name: "拼单伙伴",  color: "#0f6e56" };
+
+const PRESETS = [
+  [{x:110,y:250},{x:520,y:250},{x:330,y:250}],   // 必经之路
+  [{x:110,y:250},{x:520,y:250},{x:560,y:150}],   // 同方向
+  [{x:110,y:250},{x:520,y:250},{x:150,y:90}],    // 明显绕路
+  [{x:110,y:250},{x:520,y:250},{x:80,y:120}],    // 反方向
+];
+
+function dist(p, q) { return Math.hypot(p.x - q.x, p.y - q.y) * KMPP; }
+function fmt(km) { return km.toFixed(2) + " km"; }
+
+function solve() {
+  const dSA = dist(store, init), dSB = dist(store, part), dAB = dist(init, part);
+  const rAF = dSA + dAB, rBF = dSB + dAB;
+  const route = Math.min(rAF, rBF);
+  const first = rAF <= rBF ? "先送发起人，再送伙伴" : "先送伙伴，再送发起人";
+  const base = Math.max(dSA, dSB);
+  const r = base < 1e-9 ? 99 : route / base;
+  const tier = TIERS.find(t => r <= t[0]);
+  const F = parseFloat(document.getElementById("fee").value);
+  let fee = null;
+  if (tier) {
+    const k = tier[2];
+    const pooled = F * (1 + k * (r - 1));
+    const half = (2 * F - pooled) / 2;
+    fee = { pooled, each: F - half, savePct: half / F * 100 };
+  }
+  return { dSA, dSB, dAB, route, first, r, tier, F, fee };
+}
+
+function draw() {
+  const svg = document.getElementById("map");
+  let s = `<defs><marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round"/></marker></defs>`;
+  for (let x = 0; x <= W; x += 62) s += `<line x1="${x}" y1="0" x2="${x}" y2="${H}" stroke="#eceae2" stroke-width="1"/>`;
+  for (let y = 0; y <= H; y += 62) s += `<line x1="0" y1="${y}" x2="${W}" y2="${y}" stroke="#eceae2" stroke-width="1"/>`;
+
+  const sol = solve();
+  // 围栏（发起人为圆心，2km）
+  s += `<circle cx="${init.x}" cy="${init.y}" r="${2 / KMPP}" fill="#185fa5" opacity="0.05"/>
+        <circle cx="${init.x}" cy="${init.y}" r="${2 / KMPP}" fill="none" stroke="#85b7eb" stroke-width="1" stroke-dasharray="5 4"/>`;
+
+  // 最优配送路线（实线箭头）
+  const ok = !!sol.tier && sol.r <= 2.5;
+  const stroke = ok ? "#534ab7" : "#a32d2d";
+  s += `<line x1="${store.x}" y1="${store.y}" x2="${init.x}" y2="${init.y}" stroke="#b4b2a9" stroke-width="1" stroke-dasharray="4 4"/>`;
+  s += `<line x1="${store.x}" y1="${store.y}" x2="${part.x}" y2="${part.y}" stroke="#b4b2a9" stroke-width="1" stroke-dasharray="4 4"/>`;
+  const firstIsInit = sol.first.startsWith("先送发起人");
+  const mid = firstIsInit ? init : part, last = firstIsInit ? part : init;
+  s += `<polyline points="${store.x},${store.y} ${mid.x},${mid.y}" fill="none" stroke="${stroke}" stroke-width="2.5" marker-end="url(#arr)"/>`;
+  s += `<polyline points="${mid.x},${mid.y} ${last.x},${last.y}" fill="none" stroke="${stroke}" stroke-width="2.5" marker-end="url(#arr)" ${ok ? "" : 'opacity="0.45"'}/>`;
+
+  for (const [p, r0, label] of [[store, 13, "M"], [init, 11, "A"], [part, 11, "B"]]) {
+    s += `<g class="pt" data-p="${p === store ? "store" : p === init ? "init" : "part"}" style="cursor:grab">
+      <circle cx="${p.x}" cy="${p.y}" r="${r0}" fill="${p.color}" stroke="#fff" stroke-width="2.5"/>
+      <text x="${p.x}" y="${p.y - r0 - 7}" text-anchor="middle" font-size="12" font-weight="600" fill="#444441">${p.name}</text>
+    </g>`;
+  }
+  svg.innerHTML = s;
+  svg.querySelectorAll(".pt").forEach(g => {
+    g.addEventListener("pointerdown", ev => {
+      ev.preventDefault();
+      const key = g.dataset.p, obj = { store, init, part }[key];
+      const move = e => {
+        const rect = svg.getBoundingClientRect();
+        obj.x = Math.max(20, Math.min(W - 20, (e.clientX - rect.left) * W / rect.width));
+        obj.y = Math.max(20, Math.min(H - 20, (e.clientY - rect.top) * H / rect.height));
+        draw(); render();
+      };
+      const up = () => { window.removeEventListener("pointermove", move); window.removeEventListener("pointerup", up); };
+      window.addEventListener("pointermove", move);
+      window.addEventListener("pointerup", up);
+    });
+  });
+}
+
+function render() {
+  const sol = solve();
+  document.getElementById("feeVal").textContent = "¥" + sol.F.toFixed(1);
+  document.getElementById("dSA").textContent = fmt(sol.dSA);
+  document.getElementById("dAB").textContent = fmt(sol.dAB);
+  document.getElementById("dSB").textContent = fmt(sol.dSB);
+  document.getElementById("route").textContent = fmt(sol.route);
+  document.getElementById("order").textContent = sol.first;
+
+  const v = document.getElementById("verdict");
+  const ok = !!sol.tier && sol.r <= 2.5;
+  if (ok) {
+    v.className = "verdict ok";
+    v.innerHTML = `✅ 可以拼单 · 顺路度 <b>${sol.r.toFixed(2)}</b>（${sol.tier[1]}）<br>` +
+      `双方配送费各 <b>¥${sol.fee.each.toFixed(2)}</b>（各省 <b>${sol.fee.savePct.toFixed(1)}%</b>）` +
+      ` · 一趟合计 ¥${sol.fee.pooled.toFixed(2)}（原两单 ¥${(2 * sol.F).toFixed(2)}）`;
+    document.getElementById("card").textContent =
+`🍔 麦顺路 · 拼单卡片
+门店: 麦当劳（示例餐厅）
+时间窗: 剩 30 分钟
+
+🧍 发起人   ¥${sol.F.toFixed(1)} → ¥${sol.fee.each.toFixed(2)}（省 ${sol.fee.savePct.toFixed(1)}%）
+🧍 伙伴     ¥${sol.F.toFixed(1)} → ¥${sol.fee.each.toFixed(2)}（省 ${sol.fee.savePct.toFixed(1)}%）
+
+顺路度: ${sol.r.toFixed(2)}（${sol.tier[1]}）
+骑手一趟总里程: ${sol.route.toFixed(2)} km
+派单建议: ${sol.first}
+配送费合计: ¥${sol.fee.pooled.toFixed(2)}（各自下单为 ¥${(2 * sol.F).toFixed(2)}）`;
+  } else {
+    v.className = "verdict no";
+    v.innerHTML = `❌ 不建议拼单 · 顺路度 <b>${sol.r.toFixed(2)}</b> &gt; 2.5<br>` +
+      `骑手要专程绕路，配送成本不降反升——<b>不是顺路，是专程</b>`;
+    document.getElementById("card").textContent =
+`🍔 麦顺路 · 拼单失败
+
+顺路度: ${sol.r.toFixed(2)}（超过上限 2.5）
+骑手一趟总里程: ${sol.route.toFixed(2)} km
+
+建议：换一位更顺路的伙伴，
+或约在双方中间地点会合取餐。`;
+  }
+}
+
+function preset(i) {
+  const [s, a, b] = PRESETS[i];
+  Object.assign(store, s); Object.assign(init, a); Object.assign(part, b);
+  draw(); render();
+}
+
+draw(); render();
+</script>
+</body>
+</html>
